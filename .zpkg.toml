@@ -1,0 +1,47 @@
+[package]
+org = "led-dynamo"
+name = "leddy-api-server.rs"
+version = "0.1.0"
+description = "Rust API and WebSocket command plane for Leddy displays and device telemetry"
+license = "MIT"
+keywords = ["led-matrix", "api", "websocket", "iot", "rust"]
+language = "rust"
+
+[package.repository]
+vcs = "git"
+url = "https://github.com/led-dynamo/leddy-api-server.rs"
+
+[dependencies]
+"led-dynamo/leddy-interfaces" = "^0.1.0"
+
+[build]
+command = "cargo build --release"
+outputs = ["target/release/leddy-api-server"]
+
+[bin]
+leddy-api-server = "target/release/leddy-api-server"
+
+[publish]
+include_readme = true
+tag_format = "v{version}"
+smoke_test = "test -x \"$ZED_PKG_TEST_TARGET/target/release/leddy-api-server\""
+exclude = [
+  ".env",
+  ".env.*",
+  ".vendor/.zed/**",
+  ".zed/**",
+  ".zed-pack/**",
+  "target/**",
+  "**/*.log",
+]
+
+[publish.native]
+registry = "crates-io"
+package = "leddy-api-server"
+
+[install]
+adapter = "none"
+dir = ".vendor/.zed"
+
+[scripts]
+test = "cargo test --all-targets"

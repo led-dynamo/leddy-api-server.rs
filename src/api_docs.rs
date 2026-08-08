@@ -4,10 +4,10 @@
 //! display commands, opens device WebSockets, or returns device telemetry.
 
 use axum::{
-    body::Body,
-    http::{header, Response, StatusCode},
-    routing::get,
     Router,
+    body::Body,
+    http::{Response, StatusCode, header},
+    routing::get,
 };
 
 pub const DISCOVERY_PATH: &str = "/.well-known/api-docs";
@@ -192,7 +192,10 @@ mod tests {
         let manifest: Value = serde_json::from_slice(&body).expect("manifest must be JSON");
         assert_eq!(manifest["schemaVersion"], "ore.api-docs.v1");
         assert_eq!(manifest["public"]["openapi"]["sha256"], OPENAPI_SHA256);
-        assert_eq!(manifest["mcp"]["repository"], "led-dynamo/leddy-mcp-server.rs");
+        assert_eq!(
+            manifest["mcp"]["repository"],
+            "led-dynamo/leddy-mcp-server.rs"
+        );
         assert_eq!(manifest["mcp"]["mode"], "read-only");
         assert_eq!(manifest["internal"]["available"], false);
 

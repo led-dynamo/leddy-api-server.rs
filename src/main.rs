@@ -274,11 +274,11 @@ async fn record_event(state: &AppState, event: DeviceEvent, connection_device_id
             );
         }
         DeviceEvent::Ack { command_id } => {
-            if let Some(device_id) = connection_device_id {
-                if let Some(device) = state.devices.write().await.get_mut(device_id) {
-                    device.last_seen_unix_ms = now;
-                    device.last_ack_command_id = Some(command_id);
-                }
+            if let Some(device_id) = connection_device_id
+                && let Some(device) = state.devices.write().await.get_mut(device_id)
+            {
+                device.last_seen_unix_ms = now;
+                device.last_ack_command_id = Some(command_id);
             }
         }
         DeviceEvent::Telemetry(telemetry) => {

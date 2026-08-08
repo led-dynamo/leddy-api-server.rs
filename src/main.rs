@@ -1,5 +1,7 @@
 #![forbid(unsafe_code)]
 
+mod api_docs;
+
 use axum::{
     Json, Router,
     extract::{
@@ -91,7 +93,7 @@ async fn main() {
         .init();
 
     let state = AppState::new();
-    let app = Router::new()
+    let application = Router::new()
         .route("/health", get(health))
         .route("/v1/messages", post(publish_message))
         .route("/v1/clear", post(clear_displays))
@@ -99,8 +101,11 @@ async fn main() {
         .route("/v1/devices/{device_id}", get(get_device))
         .route("/v1/ws/devices", get(device_socket))
         .layer(CorsLayer::permissive())
-        .layer(TraceLayer::new_for_http())
         .with_state(state);
+    let app = Router::new()
+        .merge(api_docs::router())
+        .merge(application)
+        .layer(TraceLayer::new_for_http());
 
     let address = env::var("LEDDY_API_ADDR").unwrap_or_else(|_| "0.0.0.0:8080".into());
     let listener = tokio::net::TcpListener::bind(&address)

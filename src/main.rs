@@ -372,6 +372,9 @@ mod tests {
         assert_eq!(receivers, 1);
         let received = receiver.recv().await.expect("command broadcast");
         assert_eq!(received.revision, 1);
-        assert_eq!(received.command, DeviceCommand::Show(test_message("message-1")));
+        assert_eq!(
+            received.command,
+            DeviceCommand::Show(test_message("message-1"))
+        );
     }
 }

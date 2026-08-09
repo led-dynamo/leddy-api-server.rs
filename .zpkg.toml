@@ -13,6 +13,8 @@ url = "https://github.com/led-dynamo/leddy-api-server.rs"
 
 [dependencies]
 "led-dynamo/leddy-interfaces" = "^0.1.0"
+"led-dynamo/leddy-lib" = "^0.1.0"
+"shared-auth/shared-auth-clients" = "^0.1.0"
 
 [build]
 command = "cargo build --release"
